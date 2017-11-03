@@ -134,7 +134,7 @@ PRIVATE SUB Create_Model_From_Excel(xlsheet,package)
 				col.primary= TRUE
 			END IF
 			'列是否非空，如果是非空，则输出 Y
-			IF CSTR(xlsheet.Range(CELL_J+CSTR(i)).Value)=str_iskey THEN
+			IF CSTR(xlsheet.Range(CELL_J+CSTR(i)).Value)=str_iskey and CSTR(xlsheet.Range(CELL_I+CSTR(i)).Value)<>str_iskey THEN
 				col.mandatory= TRUE
 			END IF
 			'列默认值
