@@ -23,7 +23,8 @@ CONST CELL_J="J"
 '默认值
 CONST CELL_K="K" 
 '标识符
-CONST str_iskey="Y"
+CONST pri_iskey="PRI"
+CONST null_iskey="NO"
 '表的所属者
 CONST str_username="srv"
 '是否先删除表的所有列，如果是false则不会删除excel中没有的列，如果是true，则会重新创建相应表的所有列
@@ -54,6 +55,7 @@ xlApp.Visible = TRUE
 output "开始从Excel创建模型"
 Create_From_Excel(xlBook)
 output "模型创建完成，开始关闭Excel"
+MsgBox "成功将 Excel 导出到 Models中！"
 
 SET xlBook=NOTHING
 xlApp.Quit
@@ -130,11 +132,12 @@ PRIVATE SUB Create_Model_From_Excel(xlsheet,package)
 			'列数据类型
 			col.DataType=xlsheet.Range(CELL_H+CSTR(i)).Value 
 			'列是否主键，如果是主键，则输出 Y
-			IF CSTR(xlsheet.Range(CELL_I+CSTR(i)).Value)=str_iskey THEN
+			IF CSTR(xlsheet.Range(CELL_I+CSTR(i)).Value)=pri_iskey THEN
 				col.primary= TRUE
+				col.identity=TRUE
 			END IF
 			'列是否非空，如果是非空，则输出 Y
-			IF CSTR(xlsheet.Range(CELL_J+CSTR(i)).Value)=str_iskey and CSTR(xlsheet.Range(CELL_I+CSTR(i)).Value)<>str_iskey THEN
+			IF CSTR(xlsheet.Range(CELL_J+CSTR(i)).Value)=pri_iskey and CSTR(xlsheet.Range(CELL_I+CSTR(i)).Value)<>null_iskey THEN
 				col.mandatory= TRUE
 			END IF
 			'列默认值

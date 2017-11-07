@@ -24,7 +24,9 @@ CONST CELL_J="J"
 CONST CELL_K="K" 
 
 '标识符
-CONST str_iskey="Y"
+CONST pri_iskey="PRI"
+'标识符
+CONST null_iskey="NO"
 DIM nb
 'the current model
 DIM mdl 
@@ -141,11 +143,13 @@ PRIVATE FUNCTION ExportModelToExcel(folder)
         x1.Range(CELL_H+CSTR(nb)).Value = colobj.DataType    
         '列是否主键，如果是主键，则输出 Y
         IF colobj.primary THEN
-          x1.Range(CELL_I+CSTR(nb)).Value = "Y"
+          x1.Range(CELL_I+CSTR(nb)).Value = "PRI"
         END IF
         '列是否为非空
          IF colobj.mandatory THEN
-          x1.Range(CELL_J+CSTR(nb)).Value = "Y"
+          x1.Range(CELL_J+CSTR(nb)).Value = "NO"
+         ELSE
+          x1.Range(CELL_J+CSTR(nb)).Value = "YES"
         END IF
         '列的默认值
         x1.Range(CELL_K+CSTR(nb)).Value = colobj.DefaultValue
@@ -183,8 +187,8 @@ PRIVATE SUB WriteExcelModelHead()
    x1.Range(CELL_F+"1").Value = "列中文名称"
    x1.Range(CELL_G+"1").Value = "列注释"
    x1.Range(CELL_H+"1").Value = "数据类型"
-   x1.Range(CELL_I+"1").Value = "是否为主键"
-   x1.Range(CELL_J+"1").Value = "是否为非空"
+   x1.Range(CELL_I+"1").Value = "是否主键"
+   x1.Range(CELL_J+"1").Value = "是否为空"
    x1.Range(CELL_K+"1").Value = "默认值"
    
    '设置字体
